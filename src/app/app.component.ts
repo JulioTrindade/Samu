@@ -13,12 +13,12 @@ import {SamuService} from './services/samu.service'
   providers: [UFService, SamuService]
 })
 export class AppComponent implements OnInit {
-    title = 'app';
     ufs : UF[];
     dados_da_samu : Dados[];
+    minha_uf: UF;
     municipios_atendidos: Dados[] = [];
-    minha_uf = 26;
-    media: number;
+    meu_id = 26;
+    media: number = 0;
 
     constructor(private ufService: UFService, private samuService: SamuService)
     { }
@@ -26,33 +26,26 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.ufs = this.ufService.getAll();
         this.dados_da_samu = this.samuService.getAllMunicipiosAtendidosPorEstado();
-        this.defineTitle();
-        this.calcularMunicipios();
+        this.minha_uf = this.UF();
+        this.media = this.calcular();
     }
 
-    defineTitle(): void {
-      for(let uf of this.ufs) {
-        if(uf.id == 26) this.title = uf.nome;
+    UF(): UF {
+      for (let uf of this.ufs) {
+          if (uf.id == this.meu_id) return uf;
       }
     }
 
-    calcularMunicipios(): number{
-      var qtd = 0;
+    calcular(): number {
+      var qnt = 0;
       var total = 0;
-      for(let mun of this.dados_da_samu){
-        if(mun.uf_id == 26){
-          qtd++;
-          total += mun.valor;
-          this.municipios_atendidos.push(mun)
+      for (let mun of this.dados_da_samu){
+        if (mun.uf_id == this.meu_id){
+          qnt++;
+          total+=mun.valor;
+          this.municipios_atendidos.push(mun);
         }
       }
-      return Math.round(total/qtd);
+        return Math.round(total/qnt);
     }
-
-    defineId(): void {
-      for(let uf of this.ufs) {
-        if(uf.id == 26) this.title = uf.nome;
-      }
-    }
-
 }
