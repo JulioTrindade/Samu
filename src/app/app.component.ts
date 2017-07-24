@@ -26,15 +26,26 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.ufs = this.ufService.getAll();
         this.dados_da_samu = this.samuService.getAllMunicipiosAtendidosPorEstado();
-        this.minha_uf = this.UF();
+        this.minha_uf = this.UF(meu_id);
         this.media = this.calcular();
+      this.municipios_atendidos = this.getPorUFMunicipiosAtendidosPorEstado(minha_uf);
     }
 
-    UF(): UF {
+    UF(id: number): UF {
       for (let uf of this.ufs) {
-          if (uf.id == this.meu_id) return uf;
+          if (uf.id == id) return uf;
       }
     }
+  
+  getPorUFMunicipiosAtendidosPorEstado(uf: UF): Dados[]{
+    let municipios: Dados[] = [];
+    for (let mun of this.dados_da_samu){
+        if (mun.uf_id == uf.id){
+          this.municipios_atendidos.push(mun);
+        }
+      }
+    return municipios;
+  }
 
     calcular(): number {
       var qnt = 0;
@@ -43,7 +54,6 @@ export class AppComponent implements OnInit {
         if (mun.uf_id == this.meu_id){
           qnt++;
           total+=mun.valor;
-          this.municipios_atendidos.push(mun);
         }
       }
         return Math.round(total/qnt);
