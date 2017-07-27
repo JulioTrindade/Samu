@@ -25,8 +25,8 @@ export class resumoComponent implements OnInit {
 
     ngOnInit(): void {
         this.ufs = this.ufService.getAll();
-        this.dados_da_samu = this.samuService.getAllMunicipiosAtendidosPorEstado();
+        this.dados_da_samu = this.samuService.getMunicipiosPorEstado();
         this.uf = this.ufService.getUF(this.id);
-        this.media = this.samuService.geMediaMunicipios(this.id);
+        this.media = this.samuService.getMediaMunicipios(this.id);
     }
 }

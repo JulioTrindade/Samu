@@ -7,10 +7,10 @@ import { UF } from '../types/uf';
 @Injectable()
 export class SamuService {
 
-  getAllMunicipiosAtendidosPorEstado(): Dados[] {
+  getMunicipiosPorEstado(): Dados[] {
     return VALORES;
   }
-  geMediaMunicipios(id: number): number{
+  getMediaMunicipios(id: number): number{
     let numero: number;
     numero = 0;
     let anos: number;
@@ -25,7 +25,7 @@ export class SamuService {
     }
     return Math.round(numero/anos);
   }
-  getMunicipiosPorAno(uf: UF): Dados[]{
+  getMunicipiosAno(uf: UF): Dados[]{
     let valores: Dados[] = [];
     let i: number;
     i = 0;
